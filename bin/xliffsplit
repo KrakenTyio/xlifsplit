@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 'use strict';
 
-require('../dist/i18n-split')();
+new (require('../dist/i18n-split').I18nSplit)();

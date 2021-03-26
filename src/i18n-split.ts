@@ -196,8 +196,6 @@ export class I18nSplit {
 
         const tuNode: Node = copy['_parsedDocument'].getElementById(this.rootId);
         if (tuNode) {
-
-new I18nSplit();
             tuNode.textContent = '';
         }
 
