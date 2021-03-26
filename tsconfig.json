@@ -20,7 +20,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "noEmitHelpers": true,
     "importHelpers": true,
     "strictNullChecks": false,
