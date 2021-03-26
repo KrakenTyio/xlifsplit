@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "lib": [
       "esnext.asynciterable",
-      "es2020",
+      "es2020"
     ],
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
@@ -39,10 +39,17 @@
     "strict": true,
     "baseUrl": ".",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "node_modules/ngx-i18nsupport-lib/dist/src",
     ]
   },
+  "files": [
+    "src/i18n-split.ts"
+  ],
+  "include": [
+    "src/*"
+  ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

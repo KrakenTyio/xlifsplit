@@ -50,9 +50,10 @@ export class I18nSplit {
 
     exchangeMap: Map<Langs, ExchangeEntity>;
 
+    protected splitPath: string;
+    protected projectPath: string;
+
     constructor(
-        public splitPath: string = path.resolve('./split-module.json'),
-        public projectPath: string = path.resolve('./xliffmerge.json'),
         public rootId: string = 'ngi18n',
         public merge: boolean = false,
     ) {
@@ -77,10 +78,14 @@ export class I18nSplit {
         }>(process.argv.slice(2));
         if (params.splitModule) {
             this.splitPath = path.resolve(params.splitModule);
+        } else {
+            this.splitPath = path.resolve('./split-module.json');
         }
 
         if (params.profile) {
             this.projectPath = path.resolve(params.profile);
+        } else {
+            this.projectPath = path.resolve('./xliffmerge.json');
         }
 
         if (params.m || params.merge) {
@@ -191,6 +196,8 @@ export class I18nSplit {
 
         const tuNode: Node = copy['_parsedDocument'].getElementById(this.rootId);
         if (tuNode) {
+
+new I18nSplit();
             tuNode.textContent = '';
         }
 
@@ -387,5 +394,3 @@ export class I18nSplit {
         return file.xliffmergeOptions;
     }
 }
-
-new I18nSplit();

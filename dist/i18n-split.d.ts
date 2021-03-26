@@ -27,8 +27,6 @@ interface Order {
 }
 declare type Langs = string | 'origin';
 export declare class I18nSplit {
-    splitPath: string;
-    projectPath: string;
     rootId: string;
     merge: boolean;
     encoding: BufferEncoding;
@@ -36,7 +34,9 @@ export declare class I18nSplit {
     splitModule: SplitModuleJSON;
     mergeOptions: IXliffMergeOptions;
     exchangeMap: Map<Langs, ExchangeEntity>;
-    constructor(splitPath?: string, projectPath?: string, rootId?: string, merge?: boolean);
+    protected splitPath: string;
+    protected projectPath: string;
+    constructor(rootId?: string, merge?: boolean);
     get orderFilePath(): string;
     args(): void;
     runMerge(): Promise<void>;

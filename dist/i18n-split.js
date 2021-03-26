@@ -11,9 +11,7 @@ const anymatch_1 = tslib_1.__importDefault(require("anymatch"));
 const mkdirp_1 = tslib_1.__importDefault(require("mkdirp"));
 const minimist_1 = tslib_1.__importDefault(require("minimist"));
 class I18nSplit {
-    constructor(splitPath = path_1.default.resolve('./split-module.json'), projectPath = path_1.default.resolve('./xliffmerge.json'), rootId = 'ngi18n', merge = false) {
-        this.splitPath = splitPath;
-        this.projectPath = projectPath;
+    constructor(rootId = 'ngi18n', merge = false) {
         this.rootId = rootId;
         this.merge = merge;
         this.encoding = 'utf8';
@@ -34,8 +32,14 @@ class I18nSplit {
         if (params.splitModule) {
             this.splitPath = path_1.default.resolve(params.splitModule);
         }
+        else {
+            this.splitPath = path_1.default.resolve('./split-module.json');
+        }
         if (params.profile) {
             this.projectPath = path_1.default.resolve(params.profile);
+        }
+        else {
+            this.projectPath = path_1.default.resolve('./xliffmerge.json');
         }
         if (params.m || params.merge) {
             this.merge = true;
@@ -111,6 +115,7 @@ class I18nSplit {
         copy['transUnits'] = [];
         const tuNode = copy['_parsedDocument'].getElementById(this.rootId);
         if (tuNode) {
+            new I18nSplit();
             tuNode.textContent = '';
         }
         copy.countNumbers();
@@ -240,5 +245,4 @@ class I18nSplit {
     }
 }
 exports.I18nSplit = I18nSplit;
-new I18nSplit();
 //# sourceMappingURL=i18n-split.js.map
