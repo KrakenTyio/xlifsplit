@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "specific": "src/file2.ts",
+    "all": "/src/**"
+  }
+}

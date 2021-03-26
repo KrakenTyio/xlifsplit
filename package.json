@@ -7,8 +7,9 @@
   "license": "MIT",
   "author": "KrakenTyio - Bart s.r.o.",
   "scripts": {
-    "dev": "TS_NODE_PROJECT=./tsconfig.bin.json ts-node-dev -r tsconfig-paths/register i18n-split.ts",
-    "build": "tsc"
+    "build": "tsc -p ./tsconfig.json && cpx ./src/src/xliffsplit ./dist/xliffsplit",
+    "dev": "TS_NODE_PROJECT=./tsconfig.bin.json ts-node-dev -r tsconfig-paths/register src/i18n-split.ts",
+    "prepublish": "npm run build"
   },
   "dependencies": {
     "anymatch": "~3.1.1",
@@ -26,6 +27,7 @@
     "tsconfig-paths": "~3.9.0",
     "typescript": "~4.2.3",
     "eslint": "~7.22.0",
+    "cpx": "~1.5.0",
     "eslint-config-prettier": "~8.1.0",
     "eslint-plugin-prettier": "~3.3.1",
     "@typescript-eslint/eslint-plugin": "~4.19.0",
@@ -33,7 +35,7 @@
   },
   "main": "dist/i18n-split.js",
   "bin": {
-    "xliffsplit": "./dist/i18n-split.js"
+    "xliffsplit": "./dist/xliffsplit"
   },
   "repository": {
     "type": "git",

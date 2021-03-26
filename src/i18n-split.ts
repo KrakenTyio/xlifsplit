@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import path from 'path';
 import * as fs from 'fs';
 import { FORMAT_XLIFF20, ITransUnit, TranslationMessagesFileFactory } from 'ngx-i18nsupport-lib';
