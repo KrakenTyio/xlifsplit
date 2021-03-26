@@ -115,7 +115,6 @@ class I18nSplit {
         copy['transUnits'] = [];
         const tuNode = copy['_parsedDocument'].getElementById(this.rootId);
         if (tuNode) {
-            new I18nSplit();
             tuNode.textContent = '';
         }
         copy.countNumbers();
