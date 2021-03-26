@@ -4,7 +4,7 @@ exports.I18nSplit = void 0;
 const tslib_1 = require("tslib");
 const path_1 = tslib_1.__importDefault(require("path"));
 const fs = tslib_1.__importStar(require("fs"));
-const ngx_i18nsupport_lib_1 = require("ngx-i18nsupport-lib");
+const dist_1 = require("ngx-i18nsupport-lib/dist");
 const util = tslib_1.__importStar(require("util"));
 const chalk_1 = require("chalk");
 const anymatch_1 = tslib_1.__importDefault(require("anymatch"));
@@ -67,11 +67,11 @@ class I18nSplit {
                 const fileName = parsed.name + this.getFileLangExt(lang) + parsed.ext;
                 const pathFile = path_1.default.resolve(this.mergeOptions.genDir, fileName);
                 const content = fs.readFileSync(pathFile, this.encoding);
-                const file = ngx_i18nsupport_lib_1.TranslationMessagesFileFactory.fromFileContent(ngx_i18nsupport_lib_1.FORMAT_XLIFF20, content, pathFile, this.encoding);
+                const file = dist_1.TranslationMessagesFileFactory.fromFileContent(dist_1.FORMAT_XLIFF20, content, pathFile, this.encoding);
                 exchMap.set(lang, {
                     file,
                     path: pathFile,
-                    matches: new Map(),
+                    matches: new Map()
                 });
             }
         }
@@ -106,7 +106,7 @@ class I18nSplit {
     }
     translateForModule(path, target, updateState) {
         const content = fs.readFileSync(path, this.encoding);
-        const source = ngx_i18nsupport_lib_1.TranslationMessagesFileFactory.fromFileContent(ngx_i18nsupport_lib_1.FORMAT_XLIFF20, content, path, this.encoding);
+        const source = dist_1.TranslationMessagesFileFactory.fromFileContent(dist_1.FORMAT_XLIFF20, content, path, this.encoding);
         source.forEachTransUnit((tu) => {
             this.translateFromTarget(tu, target, updateState);
         });
@@ -147,7 +147,7 @@ class I18nSplit {
         this.translateForModule(targetPath, entity.file, lang !== 'origin');
         console.log(chalk_1.magenta('Updated by module:'), this.otherKey);
         fs.writeFileSync(entity.path, entity.file.editedContent(true), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
         console.log(chalk_1.magenta('Updated file:'), entity.path);
     }
@@ -178,7 +178,7 @@ class I18nSplit {
     }
     writeOrder(order) {
         fs.writeFileSync(this.orderFilePath, JSON.stringify(order, null, 2), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
     }
     getOrder() {
@@ -214,7 +214,7 @@ class I18nSplit {
             this.translateFromTarget(unit, newFile);
         }
         fs.writeFileSync(targetPath, newFile.editedContent(true), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
         console.log(chalk_1.magenta('Created file:'), targetPath);
     }
@@ -244,4 +244,3 @@ class I18nSplit {
     }
 }
 exports.I18nSplit = I18nSplit;
-//# sourceMappingURL=i18n-split.js.map

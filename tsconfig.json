@@ -38,18 +38,14 @@
     "noFallthroughCasesInSwitch": true,
     "strict": true,
     "baseUrl": ".",
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/ngx-i18nsupport-lib/dist/src",
-    ]
   },
   "files": [
     "src/i18n-split.ts"
   ],
   "include": [
-    "src/*"
+    "src/*",
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules"
   ]
 }

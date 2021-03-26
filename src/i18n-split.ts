@@ -1,13 +1,10 @@
 import path from 'path';
 import * as fs from 'fs';
-import { FORMAT_XLIFF20, ITransUnit, TranslationMessagesFileFactory } from 'ngx-i18nsupport-lib';
+import { FORMAT_XLIFF20, ITransUnit, TranslationMessagesFileFactory } from 'ngx-i18nsupport-lib/dist';
 import { Xliff2File } from 'ngx-i18nsupport-lib/dist/src/impl/xliff2-file';
-import {
-    IConfigFile,
-    IXliffMergeOptions,
-} from 'ngx-i18nsupport/src/xliffmerge/i-xliff-merge-options';
+import { IConfigFile, IXliffMergeOptions } from 'ngx-i18nsupport/src/xliffmerge/i-xliff-merge-options';
 import * as util from 'util';
-import { magenta, red, green } from 'chalk';
+import { green, magenta, red } from 'chalk';
 import anymatch from 'anymatch';
 import mkdirp from 'mkdirp';
 import minimist from 'minimist';
@@ -55,7 +52,7 @@ export class I18nSplit {
 
     constructor(
         public rootId: string = 'ngi18n',
-        public merge: boolean = false,
+        public merge: boolean = false
     ) {
         this.args();
         if (this.merge) {
@@ -126,13 +123,13 @@ export class I18nSplit {
                     FORMAT_XLIFF20,
                     content,
                     pathFile,
-                    this.encoding,
+                    this.encoding
                 ) as Xliff2File;
 
                 exchMap.set(lang, {
                     file,
                     path: pathFile,
-                    matches: new Map<string, Match>(),
+                    matches: new Map<string, Match>()
                 });
             }
         }
@@ -144,7 +141,7 @@ export class I18nSplit {
         key: string,
         locationFindOther: string | boolean,
         file: Xliff2File,
-        matches: Map<string, Match>,
+        matches: Map<string, Match>
     ) {
         const list: ITransUnit[] = [];
         const order: OrderType = {};
@@ -183,7 +180,7 @@ export class I18nSplit {
             FORMAT_XLIFF20,
             content,
             path,
-            this.encoding,
+            this.encoding
         ) as Xliff2File;
 
         source.forEachTransUnit((tu: ITransUnit) => {
@@ -226,8 +223,8 @@ export class I18nSplit {
         console.log(
             util.format(
                 green('Merging translation for %s'),
-                entity.file.targetLanguage() || 'Not defined, (origin)',
-            ),
+                entity.file.targetLanguage() || 'Not defined, (origin)'
+            )
         );
 
         const parsed = path.parse(entity.path);
@@ -243,7 +240,7 @@ export class I18nSplit {
         console.log(magenta('Updated by module:'), this.otherKey);
 
         fs.writeFileSync(entity.path, entity.file.editedContent(true), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
         console.log(magenta('Updated file:'), entity.path);
     }
@@ -252,8 +249,8 @@ export class I18nSplit {
         console.log(
             util.format(
                 green('Translation for %s'),
-                entity.file.targetLanguage() || 'Not defined, (origin)',
-            ),
+                entity.file.targetLanguage() || 'Not defined, (origin)'
+            )
         );
 
         const parsed = path.parse(entity.path);
@@ -263,7 +260,7 @@ export class I18nSplit {
             entity.file.targetLanguage(),
             target,
             false,
-            false,
+            false
         ) as Xliff2File;
 
         this.clearAllUnits(newFile);
@@ -277,7 +274,7 @@ export class I18nSplit {
                 key,
                 this.normalizeLocation(location),
                 entity.file,
-                entity.matches,
+                entity.matches
             );
 
             const targetPath = this.getWritePath(lang, parsed.ext, key);
@@ -294,7 +291,7 @@ export class I18nSplit {
             this.otherKey,
             true,
             entity.file,
-            entity.matches,
+            entity.matches
         );
 
         this.writeSplitFile(listRest, newFile, this.getWritePath(lang, parsed.ext));
@@ -309,7 +306,7 @@ export class I18nSplit {
 
     writeOrder(order: Order) {
         fs.writeFileSync(this.orderFilePath, JSON.stringify(order, null, 2), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
     }
 
@@ -347,7 +344,7 @@ export class I18nSplit {
             sourceEmpty.targetLanguage(),
             targetPath,
             false,
-            false,
+            false
         ) as Xliff2File;
 
         for (const unit of list) {
@@ -356,7 +353,7 @@ export class I18nSplit {
         }
 
         fs.writeFileSync(targetPath, newFile.editedContent(true), {
-            encoding: this.encoding,
+            encoding: this.encoding
         });
         console.log(magenta('Created file:'), targetPath);
     }
@@ -384,8 +381,8 @@ export class I18nSplit {
         if (!file) {
             throw Error(
                 red(
-                    'XLIFFMerge profile not found (xliffmerge.json | package.json["xliffmergeOptions"])',
-                ),
+                    'XLIFFMerge profile not found (xliffmerge.json | package.json["xliffmergeOptions"])'
+                )
             );
         }
 

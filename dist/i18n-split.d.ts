@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { ITransUnit } from 'ngx-i18nsupport-lib';
+import { ITransUnit } from 'ngx-i18nsupport-lib/dist';
 import { Xliff2File } from 'ngx-i18nsupport-lib/dist/src/impl/xliff2-file';
 import { IXliffMergeOptions } from 'ngx-i18nsupport/src/xliffmerge/i-xliff-merge-options';
 interface SplitModuleJSON {
