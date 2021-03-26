@@ -13,8 +13,8 @@ xliffsplit -m
 ```
 
 ## Options
-| Option       | Meaning                                                                                                                                                              | Type    | Default             |
-|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------------|
-| -splitModule | Json with locations of modules which will be splitted,<br>resolved by `anymatch`,<br>{paths: {[nameOfModule]: relative path from root of project, directory of file }} | string  | ./split-module.json |
-| -profile     | similar to xliffmerge `-profile`, define path to xliffmerge.json                                                                                                     | string  | ./xliffmerge.json   |
-| -merge, -m   | Reverse splitted modules, merge all partials to original xliffmerge files                                                                                            | boolean | false               |
+| Option       | Meaning                                                                                                                                                                  | Type    | Default             |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|---------------------|
+| -splitModule | Json with locations of modules which will be splitted,<br>resolved by anymatch, <br>directory of file,<br>{paths: {[nameOfModule]: relative path from root of project }} | string  | ./split-module.json |
+| -profile     | similar to xliffmerge `-profile`, <br>define path to xliffmerge.json                                                                                                     | string  | ./xliffmerge.json   |
+| -merge, -m   | Reverse splitted modules, <br>merge all partials to original xliffmerge files                                                                                            | boolean | false               |
