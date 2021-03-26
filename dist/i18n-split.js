@@ -10,6 +10,7 @@ const chalk_1 = require("chalk");
 const anymatch_1 = tslib_1.__importDefault(require("anymatch"));
 const mkdirp_1 = tslib_1.__importDefault(require("mkdirp"));
 const minimist_1 = tslib_1.__importDefault(require("minimist"));
+const log_update_1 = tslib_1.__importDefault(require("log-update"));
 class I18nSplit {
     constructor(rootId = 'ngi18n', merge = false) {
         this.rootId = rootId;
@@ -138,18 +139,21 @@ class I18nSplit {
     mergeLang(lang, entity) {
         console.log(util.format(chalk_1.green('Merging translation for %s'), entity.file.targetLanguage() || 'Not defined, (origin)'));
         const parsed = path_1.default.parse(entity.path);
+        const updated = [];
         for (const key of Object.keys(this.splitModule)) {
             const targetPath = this.getWritePath(lang, parsed.ext, key);
             this.translateForModule(targetPath, entity.file, lang !== 'origin');
-            console.log(chalk_1.magenta('Updated by module:'), key);
+            updated.push(key);
+            log_update_1.default(`${chalk_1.magenta('Updated by module:')} ${updated.join(', ')}`);
         }
         const targetPath = this.getWritePath(lang, parsed.ext);
         this.translateForModule(targetPath, entity.file, lang !== 'origin');
-        console.log(chalk_1.magenta('Updated by module:'), this.otherKey);
+        updated.push(this.otherKey);
+        log_update_1.default(`${chalk_1.magenta('Updated by module:')} ${updated.join(', ')}`);
         fs.writeFileSync(entity.path, entity.file.editedContent(true), {
             encoding: this.encoding
         });
-        console.log(chalk_1.magenta('Updated file:'), entity.path);
+        console.log(chalk_1.green('Updated file:'), entity.path);
     }
     async splitLang(lang, entity) {
         console.log(util.format(chalk_1.green('Translation for %s'), entity.file.targetLanguage() || 'Not defined, (origin)'));
@@ -159,10 +163,20 @@ class I18nSplit {
         this.clearAllUnits(newFile);
         const totalOrder = {};
         await mkdirp_1.default(path_1.default.resolve(this.mergeOptions.genDir, lang));
+        const updated = [];
+        let firstPath;
         for (const [key, location] of Object.entries(this.splitModule)) {
             const { list, order } = this.getUnitForLocation(key, this.normalizeLocation(location), entity.file, entity.matches);
             const targetPath = this.getWritePath(lang, parsed.ext, key);
             this.writeSplitFile(list, newFile, targetPath);
+            updated.push(key);
+            if (updated.length === 1) {
+                firstPath = targetPath;
+                log_update_1.default(`${chalk_1.magenta('Created files:')} ${targetPath}`);
+            }
+            else {
+                log_update_1.default(`${chalk_1.magenta('Created files:')} ${firstPath}, ${updated.slice(1).map(file => file + parsed.ext).join(', ')}`);
+            }
             if (lang === 'origin') {
                 totalOrder[key] = order;
             }
@@ -170,6 +184,8 @@ class I18nSplit {
         // rest
         const { list: listRest, order: orderRest } = this.getUnitForLocation(this.otherKey, true, entity.file, entity.matches);
         this.writeSplitFile(listRest, newFile, this.getWritePath(lang, parsed.ext));
+        updated.push(this.otherKey);
+        log_update_1.default(`${chalk_1.magenta('Created files:')} ${firstPath}, ${updated.slice(1).map(file => file + parsed.ext).join(', ')}`);
         if (lang === 'origin') {
             totalOrder[this.otherKey] = orderRest;
             this.writeOrder(totalOrder);
@@ -216,7 +232,6 @@ class I18nSplit {
         fs.writeFileSync(targetPath, newFile.editedContent(true), {
             encoding: this.encoding
         });
-        console.log(chalk_1.magenta('Created file:'), targetPath);
     }
     async findSplitModuleFile() {
         return (await Promise.resolve().then(() => tslib_1.__importStar(require(this.splitPath)))).paths;

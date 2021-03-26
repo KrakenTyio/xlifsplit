@@ -8,6 +8,7 @@ import { green, magenta, red } from 'chalk';
 import anymatch from 'anymatch';
 import mkdirp from 'mkdirp';
 import minimist from 'minimist';
+import logUpdate from 'log-update';
 
 interface SplitModuleJSON {
     [key: string]: string;
@@ -229,20 +230,23 @@ export class I18nSplit {
 
         const parsed = path.parse(entity.path);
 
+        const updated: string[] = [];
         for (const key of Object.keys(this.splitModule)) {
             const targetPath = this.getWritePath(lang, parsed.ext, key);
             this.translateForModule(targetPath, entity.file, lang !== 'origin');
-            console.log(magenta('Updated by module:'), key);
+            updated.push(key);
+            logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
         }
 
         const targetPath = this.getWritePath(lang, parsed.ext);
         this.translateForModule(targetPath, entity.file, lang !== 'origin');
-        console.log(magenta('Updated by module:'), this.otherKey);
+        updated.push(this.otherKey);
+        logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
 
         fs.writeFileSync(entity.path, entity.file.editedContent(true), {
             encoding: this.encoding
         });
-        console.log(magenta('Updated file:'), entity.path);
+        console.log(green('Updated file:'), entity.path);
     }
 
     async splitLang(lang: Langs, entity: ExchangeEntity) {
@@ -269,6 +273,8 @@ export class I18nSplit {
 
         await mkdirp(path.resolve(this.mergeOptions.genDir, lang));
 
+        const updated: string[] = [];
+        let firstPath: string;
         for (const [key, location] of Object.entries(this.splitModule)) {
             const { list, order } = this.getUnitForLocation(
                 key,
@@ -279,6 +285,13 @@ export class I18nSplit {
 
             const targetPath = this.getWritePath(lang, parsed.ext, key);
             this.writeSplitFile(list, newFile, targetPath);
+            updated.push(key);
+            if (updated.length === 1) {
+                firstPath = targetPath;
+                logUpdate(`${magenta('Created files:')} ${targetPath}`);
+            } else {
+                logUpdate(`${magenta('Created files:')} ${firstPath}, ${updated.slice(1).map(file => file + parsed.ext).join(', ')}`);
+            }
 
             if (lang === 'origin') {
                 totalOrder[key] = order;
@@ -295,6 +308,8 @@ export class I18nSplit {
         );
 
         this.writeSplitFile(listRest, newFile, this.getWritePath(lang, parsed.ext));
+        updated.push(this.otherKey);
+        logUpdate(`${magenta('Created files:')} ${firstPath}, ${updated.slice(1).map(file => file + parsed.ext).join(', ')}`);
 
         if (lang === 'origin') {
             totalOrder[this.otherKey] = orderRest;
@@ -355,7 +370,6 @@ export class I18nSplit {
         fs.writeFileSync(targetPath, newFile.editedContent(true), {
             encoding: this.encoding
         });
-        console.log(magenta('Created file:'), targetPath);
     }
 
     async findSplitModuleFile() {
