@@ -7,7 +7,7 @@
   "license": "MIT",
   "author": "KrakenTyio - Bart s.r.o.",
   "scripts": {
-    "build": "tsc && git add dist",
+    "build": "tsc",
     "dev": "ts-node-dev -r tsconfig-paths/register src/i18n-split.ts",
     "prepublish": "npm run build"
   },
