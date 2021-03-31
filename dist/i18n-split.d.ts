@@ -46,7 +46,7 @@ export declare class I18nSplit {
         list: ITransUnit[];
         order: OrderType;
     };
-    translateForModule(path: string, target: Xliff2File, updateState?: boolean): void;
+    translateForModule(path: string, target: Xliff2File, updateState?: boolean): boolean;
     clearAllUnits(copy: Xliff2File): void;
     normalizeLocation(location: string): string;
     doMerge(): void;

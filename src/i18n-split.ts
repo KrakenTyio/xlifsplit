@@ -175,18 +175,24 @@ export class I18nSplit {
     }
 
     translateForModule(path: string, target: Xliff2File, updateState?: boolean) {
-        const content = fs.readFileSync(path, this.encoding);
+        try {
+            const content = fs.readFileSync(path, this.encoding);
 
-        const source = TranslationMessagesFileFactory.fromFileContent(
-            FORMAT_XLIFF20,
-            content,
-            path,
-            this.encoding
-        ) as Xliff2File;
+            const source = TranslationMessagesFileFactory.fromFileContent(
+                FORMAT_XLIFF20,
+                content,
+                path,
+                this.encoding
+            ) as Xliff2File;
 
-        source.forEachTransUnit((tu: ITransUnit) => {
-            this.translateFromTarget(tu, target, updateState);
-        });
+            source.forEachTransUnit((tu: ITransUnit) => {
+                this.translateFromTarget(tu, target, updateState);
+            });
+        } catch (e) {
+            return false;
+        }
+
+        return true;
     }
 
     clearAllUnits(copy: Xliff2File) {
@@ -233,20 +239,26 @@ export class I18nSplit {
         const updated: string[] = [];
         for (const key of Object.keys(this.splitModule)) {
             const targetPath = this.getWritePath(lang, parsed.ext, key);
-            this.translateForModule(targetPath, entity.file, lang !== 'origin');
-            updated.push(key);
-            logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
+            const state = this.translateForModule(targetPath, entity.file, lang !== 'origin');
+            if (state) {
+                updated.push(key);
+                logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
+            }
         }
 
         const targetPath = this.getWritePath(lang, parsed.ext);
-        this.translateForModule(targetPath, entity.file, lang !== 'origin');
-        updated.push(this.otherKey);
-        logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
+        const state = this.translateForModule(targetPath, entity.file, lang !== 'origin');
+        if (state) {
+            updated.push(this.otherKey);
+            logUpdate(`${magenta('Updated by module:')} ${updated.join(', ')}`);
+        }
 
-        fs.writeFileSync(entity.path, entity.file.editedContent(true), {
-            encoding: this.encoding
-        });
-        console.log(green('Updated file:'), entity.path);
+        if (updated.length) {
+            fs.writeFileSync(entity.path, entity.file.editedContent(true), {
+                encoding: this.encoding
+            });
+            console.log(green('Updated file:'), entity.path);
+        }
     }
 
     async splitLang(lang: Langs, entity: ExchangeEntity) {
