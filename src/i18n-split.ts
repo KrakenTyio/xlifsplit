@@ -189,6 +189,7 @@ export class I18nSplit {
                 this.translateFromTarget(tu, target, updateState);
             });
         } catch (e) {
+            console.error(e);
             return false;
         }
 
@@ -341,6 +342,7 @@ export class I18nSplit {
         try {
             return JSON.parse(fs.readFileSync(this.orderFilePath, this.encoding)) as Order;
         } catch (e) {
+            console.error(e);
             return null;
         }
     }
@@ -354,7 +356,12 @@ export class I18nSplit {
     }
 
     translateFromTarget(tu: ITransUnit, target: Xliff2File, updateState = true) {
-        const newUnit = target.transUnitWithId(tu.id);
+        let newUnit = target.transUnitWithId(tu.id);
+
+        if (!newUnit) {
+            newUnit = target.importNewTransUnit(tu, false, false);
+        }
+
         if (newUnit) {
             const content = tu.targetContent();
             if (content) {
@@ -393,6 +400,7 @@ export class I18nSplit {
         try {
             file = (await import(this.projectPath)) as IConfigFile;
         } catch (err) {
+            console.error(err);
             try {
                 file = (await import(path.resolve('package.json'))) as IConfigFile;
 
@@ -400,6 +408,7 @@ export class I18nSplit {
                     file = null;
                 }
             } catch (e) {
+                console.error(e);
                 file = null;
             }
         }

@@ -1,6 +1,6 @@
 {
   "name": "xliffsplit",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Extension for xliffmerge to splitting and merging to smaller partials",
   "keywords": [],
