@@ -1,7 +1,6 @@
 {
   "name": "xliffsplit",
-  "version": "1.1.1",
-  "private": true,
+  "version": "1.1.3",
   "description": "Extension for xliffmerge to splitting and merging to smaller partials",
   "keywords": [],
   "license": "MIT",
@@ -9,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev -r tsconfig-paths/register src/i18n-split.ts",
-    "prepublish": "npm run build"
+    "prepublish": "npm i && npm run build"
   },
   "dependencies": {
     "anymatch": "~3.1.1",

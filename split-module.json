@@ -1,0 +1,11 @@
+{
+  "paths": {
+    "patient": "/src/app/patient/**",
+    "diary": "/src/app/diary/**",
+    "communication": "/src/app/communication/**",
+    "finance": "/src/app/finance/**",
+    "reports": "/src/app/reports/**",
+    "management": "/src/app/management/**",
+    "settings": "/src/app/settings/**"
+  }
+}
