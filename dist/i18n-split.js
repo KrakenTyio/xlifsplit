@@ -114,6 +114,7 @@ class I18nSplit {
             });
         }
         catch (e) {
+            console.error(e);
             return false;
         }
         return true;
@@ -214,6 +215,7 @@ class I18nSplit {
             return JSON.parse(fs.readFileSync(this.orderFilePath, this.encoding));
         }
         catch (e) {
+            console.error(e);
             return null;
         }
     }
@@ -224,7 +226,10 @@ class I18nSplit {
         return lang === 'origin' ? '' : '.' + lang;
     }
     translateFromTarget(tu, target, updateState = true) {
-        const newUnit = target.transUnitWithId(tu.id);
+        let newUnit = target.transUnitWithId(tu.id);
+        if (!newUnit) {
+            newUnit = target.importNewTransUnit(tu, false, false);
+        }
         if (newUnit) {
             const content = tu.targetContent();
             if (content) {
@@ -254,6 +259,7 @@ class I18nSplit {
             file = (await Promise.resolve().then(() => tslib_1.__importStar(require(this.projectPath))));
         }
         catch (err) {
+            console.error(err);
             try {
                 file = (await Promise.resolve().then(() => tslib_1.__importStar(require(path_1.default.resolve('package.json')))));
                 if (!('xliffmergeOptions' in file)) {
@@ -261,6 +267,7 @@ class I18nSplit {
                 }
             }
             catch (e) {
+                console.error(e);
                 file = null;
             }
         }
