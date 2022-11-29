@@ -1,36 +1,38 @@
 {
   "name": "xliffsplit",
-  "version": "1.1.3",
+  "version": "2.0.4",
   "description": "Extension for xliffmerge to splitting and merging to smaller partials",
   "keywords": [],
   "license": "MIT",
   "author": "KrakenTyio - Bart s.r.o.",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev -r tsconfig-paths/register src/i18n-split.ts",
+    "dev": "NODE_OPTIONS='--max-old-space-size=8192' ts-node-dev -r tsconfig-paths/register src/i18n-split.ts",
     "prepublish": "npm i && npm run build"
   },
   "dependencies": {
-    "anymatch": "~3.1.1",
-    "chalk": "~4.1.0",
+    "anymatch": "~3.1.3",
+    "chalk": "~4.1.2",
     "log-update": "~4.0.0",
-    "minimist": "~1.2.5",
+    "minimist": "~1.2.7",
     "mkdirp": "~1.0.4",
     "ngx-i18nsupport": "~0.17.1",
-    "ngx-i18nsupport-lib": "~1.10.2"
+    "ngx-i18nsupport-lib": "~1.10.2",
+    "piscina": "~3.2.0"
   },
   "devDependencies": {
-    "@types/mkdirp": "~1.0.1",
-    "@types/node": "~14.14.37",
-    "@types/minimist": "~1.2.1",
-    "ts-node-dev": "~1.1.6",
-    "tsconfig-paths": "~3.9.0",
-    "typescript": "~4.2.3",
-    "eslint": "~7.23.0",
-    "eslint-config-prettier": "~8.1.0",
-    "eslint-plugin-prettier": "~3.3.1",
-    "@typescript-eslint/eslint-plugin": "~4.20.0",
-    "@typescript-eslint/parser": "~4.20.0"
+    "@types/mkdirp": "~1.0.2",
+    "@types/node": "~18.11.9",
+    "@types/minimist": "~1.2.2",
+    "ts-node-dev": "~2.0.0",
+    "tsconfig-paths": "~4.1.0",
+    "typescript": "~4.9.3",
+    "eslint": "~8.28.0",
+    "eslint-config-prettier": "~8.5.0",
+    "eslint-plugin-prettier": "~4.2.1",
+    "prettier": "~2.8.0",
+    "@typescript-eslint/eslint-plugin": "~5.44.0",
+    "@typescript-eslint/parser": "~5.44.0"
   },
   "main": "dist/i18n-split.js",
   "bin": {
