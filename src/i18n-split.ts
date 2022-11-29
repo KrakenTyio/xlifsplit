@@ -125,7 +125,7 @@ export class I18nSplit {
 
     async doMerge() {
         const piscina = new Piscina({
-            filename: path.resolve(__dirname, './merge-for-module.ts'),
+            filename: path.resolve(__dirname, './merge-for-module'),
         });
 
         const list: Promise<boolean>[] = [];
@@ -178,7 +178,7 @@ export class I18nSplit {
 
     async doSplit() {
         const piscina = new Piscina({
-            filename: path.resolve(__dirname, './split-for-module.ts'),
+            filename: path.resolve(__dirname, './split-for-module'),
         });
 
         const list: Promise<boolean>[] = [];

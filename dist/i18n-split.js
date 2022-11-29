@@ -93,7 +93,7 @@ class I18nSplit {
     }
     async doMerge() {
         const piscina = new piscina_1.default({
-            filename: path_1.default.resolve(__dirname, './merge-for-module.ts'),
+            filename: path_1.default.resolve(__dirname, './merge-for-module'),
         });
         const list = [];
         for (const [lang, entity] of this.exchangeMap) {
@@ -134,7 +134,7 @@ class I18nSplit {
     }
     async doSplit() {
         const piscina = new piscina_1.default({
-            filename: path_1.default.resolve(__dirname, './split-for-module.ts'),
+            filename: path_1.default.resolve(__dirname, './split-for-module'),
         });
         const list = [];
         for (const [lang, entity] of this.exchangeMap) {
