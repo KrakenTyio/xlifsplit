@@ -1,2 +1,4 @@
 node_modules
-i18n-split.ts
+src/*
+.idea
+.git

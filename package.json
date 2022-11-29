@@ -1,6 +1,6 @@
 {
   "name": "xliffsplit",
-  "version": "2.0.4",
+  "version": "2.1.4",
   "description": "Extension for xliffmerge to splitting and merging to smaller partials",
   "keywords": [],
   "license": "MIT",
